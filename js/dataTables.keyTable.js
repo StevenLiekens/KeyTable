@@ -196,6 +196,11 @@ $.extend( KeyTable.prototype, {
 		// Click blur
 		if ( this.c.blurable ) {
 			$( document ).on( 'mousedown.keyTable', function ( e ) {
+				// If the click was on a node outside the DOM, don't blur
+				if ( ! document.body.contains(e.target) ) {
+					return;
+				}
+
 				// Don't blur if the click target or its parents match a specified selector
 				if (that.c.blurableIgnore && $(e.target).closest(that.c.blurableIgnore).length) {
 					return;
