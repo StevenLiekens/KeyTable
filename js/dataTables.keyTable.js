@@ -196,6 +196,13 @@ $.extend( KeyTable.prototype, {
 		// Click blur
 		if ( this.c.blurable ) {
 			$( document ).on( 'mousedown.keyTable', function ( e ) {
+				// If the click was on a node outside the DOM, don't blur
+				// Why: nodes that get removed from the DOM once clicked
+				//   would cause unwanted key-blur because of a race condition
+				if ( ! document.body.contains(e.target) ) {
+					return;
+				}
+
 				// Click on the search input will blur focus
 				if ( $(e.target).parents( '.dataTables_filter' ).length ) {
 					that._blur();
